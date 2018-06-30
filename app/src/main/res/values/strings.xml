@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Popular  Movies</string>
+    <string name="movie_poster_description">The poster of the image on the detailed view</string>
+    <string name="thumbnail_description">The thumbnail that is going to be display in the grid_view</string>
+    <string name="movie_title_label">Title: </string>
+    <string name="user_rating_label">User Rating: </string>
+    <string name="release_date_label">Release Date: </string>
+    <string name="movie_plot_label">Movie Plot: </string>
+    <string name="default_movie_title">Default Title</string>
+    <string name="trailer_label">Trailer: </string>
+
+
+</resources>
