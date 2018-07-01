@@ -18,6 +18,8 @@ class JsonUtils {
     private final static String TITLE = "title";
     private final static String PLOT = "overview";
     private final static String RELEASE_DATE =  "release_date";
+    private final static String POSTER_PATH = "poster_path";
+    private final static String MOVIE_ID = "id";
 
     public static List<Movie> parseMoviesJson(String json) {
         try {
@@ -25,6 +27,7 @@ class JsonUtils {
             JSONObject jsonMovies = new JSONObject(json);
             List<Movie> moviesList = new ArrayList<>();
             JSONArray jsonMoviesArray = jsonMovies.getJSONArray("results");
+
 
             if(null != jsonMoviesArray) {
                 for (int i = 0; i < jsonMoviesArray.length(); i++) {
@@ -35,10 +38,12 @@ class JsonUtils {
                     double rating = movieObject.optDouble(RATING);
                     String release_date = movieObject.optString(RELEASE_DATE);
                     String plot = movieObject.optString(PLOT);
-                    String imageUrl = movieObject.optString("poster_path");
+                    String imageUrl = movieObject.optString(POSTER_PATH);
+                    String movieId = movieObject.optString(MOVIE_ID);
 
+                    Movie movie = new Movie(movieId, imageUrl, title, rating, plot, release_date);
 
-                    Movie movie = new Movie(imageUrl, title, rating, plot, release_date);
+                    System.out.println("ID = " + movie.getId());
 
                     moviesList.add(movie);
                 }
@@ -47,6 +52,22 @@ class JsonUtils {
                 Log.d("JSON MOVIE ARRAY","JSONMOVIES ARRAY IS EMPTY OR NULL");
             }
             return moviesList;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String getTrailersFromId(String json) {
+        try {
+            JSONObject videoJsonObject = new JSONObject(json);
+            JSONArray  videoJsonArray = videoJsonObject.getJSONArray("results");
+            JSONObject movieObject = videoJsonArray.getJSONObject(0);
+
+            String videoId = movieObject.optString("key");
+
+            return videoId;
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -24,7 +24,8 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieListClickListener {
 
     //replace the string with the api key to be able to use the app
-    private final String API_KEY = "YOUR API KEY GOES HERE";
+    private final String API_KEY =   "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
+
 
 
     private List<Movie> mMovieList;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         SORT_BY = "popular";
 
         MOVIES_URL = "https://api.themoviedb.org/3/movie/" + SORT_BY + "?api_key=" + API_KEY + "&language=en-US&page=1";
+
+
 
         mMovieList = new ArrayList<>();
         new MovieFetcher().execute(MOVIES_URL);
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     .build();
 
             Response response = client.newCall(request).execute();
+
             return Objects.requireNonNull(response.body()).string();
         }
     }

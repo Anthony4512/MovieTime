@@ -10,13 +10,16 @@ public class Movie implements Serializable{
     private final String plot;
     private final String title;
     private final String releaseDate;
+    private String trailerId;
+    private final String id;
 
-    public Movie(String posterString, String title, double rating, String plot, String releaseDate) {
+    public Movie(String id, String posterString, String title, double rating, String plot, String releaseDate) {
         this.posterString = posterString;
         this.title = title;
         this.rating = rating;
         this.plot = plot;
         this.releaseDate = releaseDate;
+        this.id = id;
     }
 
     public String getTitle() {
@@ -39,4 +42,15 @@ public class Movie implements Serializable{
         return posterString;
     }
 
+    public String getTrailerId() {
+        return trailerId;
+    }
+
+    public void setTrailerId(String trailerId) {
+        this.trailerId = trailerId;
+    }
+
+    public String getId() {
+        return id;
+    }
 }
