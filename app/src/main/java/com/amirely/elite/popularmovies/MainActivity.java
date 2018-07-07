@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         MOVIES_URL = "https://api.themoviedb.org/3/movie/" + SORT_BY + "?api_key=" + API_KEY + "&language=en-US&page=1";
 
-
-
         mMovieList = new ArrayList<>();
         new MovieFetcher().execute(MOVIES_URL);
 
@@ -61,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         intent.putExtra("currentMovie", mMovieList.get(movieClickedIndex));
 
         startActivity(intent);
-
-
     }
 
     private void adapterSwap() {
@@ -105,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -128,6 +123,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 new MovieFetcher().execute(this.MOVIES_URL);
                 movieAdapter.notifyDataSetChanged();
                 return true;
+
+            case R.id.favorites_menu:
+//                SORT_BY = "favorites";
+//                updateMovieUrl(SORT_BY);
+//                new MovieFetcher().execute(this.MOVIES_URL);
+//                movieAdapter.notifyDataSetChanged();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

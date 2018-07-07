@@ -18,21 +18,39 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" >
 
-            >
-
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/movie_poster_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/ic_launcher_foreground"
                 android:contentDescription="@string/movie_poster_description"/>
+
+                <CheckBox
+                    android:id="@+id/likeIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:paddingBottom="20dp"
+                    android:background="@drawable/like_icon"
+                    android:button="@null"
+                    android:checked="false"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:stateListAnimator="@animator/scale"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:backgroundTint="#ffffff"/>
+            </RelativeLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -40,39 +58,37 @@
                 android:layout_height="wrap_content"
             >
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/user_rating_label"-->
-                    <!--android:textAlignment="viewEnd"-->
-                    <!--android:textColor="#000"-->
-                    <!--android:textSize="20sp"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:paddingTop="10dp"/>-->
-
-                <!--<RatingBar-->
-                    <!--android:id="@+id/ratingBar"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:numStars="5"-->
-                    <!--android:padding="0dp"-->
-                    <!--android:scaleX="0.6"-->
-                    <!--android:scaleY="0.6"-->
-                    <!--android:stepSize="0.1"-->
-                    <!--android:textAlignment="textStart" />-->
-
-                <com.iarcuschin.simpleratingbar.SimpleRatingBar
-                    android:id="@+id/user_rating_bar"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srb_starSize="30dp"
-                    app:srb_rating="4"
-                    app:srb_numberOfStars="5"
-                    app:srb_stepSize="0.01"
-                    app:srb_borderColor="@color/colorPrimaryDark"
-                    app:srb_fillColor="@color/colorPrimary"
-                    android:padding="10dp"
-                    />
+                    android:orientation="vertical">
+
+                    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                        android:id="@+id/user_rating_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srb_starSize="30dp"
+                        app:srb_rating="4"
+                        app:srb_numberOfStars="5"
+                        app:srb_stepSize="0.01"
+                        app:srb_borderColor="@color/colorPrimaryDark"
+                        app:srb_fillColor="@color/colorPrimary"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/reviews_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="5dp"
+                        android:paddingTop="5dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:text="Read reviews"
+                        android:textColor="@color/colorPrimaryDark"/>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/user_rating_tv"
@@ -85,8 +101,6 @@
                     android:textStyle="bold"
                     tools:text="8.8/10" />
 
-
-
                 <TextView
                     android:id="@+id/release_date_tv"
                     android:layout_width="match_parent"
@@ -97,65 +111,7 @@
                     android:paddingStart="10dp"
                     android:textStyle="bold"
                     android:textSize="20sp"/>
-
-
-
             </LinearLayout>
-
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="#000"-->
-                <!--android:layout_marginBottom="10dp"/>-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/movie_title_label"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textSize="20sp"-->
-                <!--android:textColor="#000"/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/movie_title_tv"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content" />-->
-
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="#000"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_marginBottom="10dp"/>-->
-
-
-
-            <!--<TextView-->
-                <!--android:id="@+id/user_rating_tv"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content" />-->
-
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="#000"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_marginBottom="10dp"/>-->
-
-
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/release_date_label"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textSize="20sp"-->
-                <!--android:textColor="#000"/>-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/release_date_tv"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content" />-->
 
             <View
                 android:layout_width="match_parent"
@@ -164,17 +120,6 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"/>
-
-
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/movie_plot_label"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textSize="20sp"-->
-                <!--android:textColor="#000"/>-->
-
             <TextView
                 android:id="@+id/plot_tv"
                 android:layout_width="match_parent"
@@ -188,9 +133,6 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"/>
-
-
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -211,22 +153,6 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:contentDescription="Button for playing trailers"
                 app:srcCompat="@drawable/play_button" />
-
-            <!--<TextView-->
-                <!--android:id="@+id/trailer_tv"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"/>-->
-
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:background="#000"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_marginBottom="0dp"/>-->
-
-
-
         </LinearLayout>
-
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

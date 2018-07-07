@@ -1,6 +1,7 @@
 package com.amirely.elite.popularmovies;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -28,35 +29,23 @@ public class Details extends AppCompatActivity {
 
 //    private final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2";
 
-
+    private final String API_KEY =   "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
     private final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780/";
-
 
     private ImageView moviePoster;
 
     String trailerId;
-
-
 
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-//        try
-//        {
-//            Objects.requireNonNull(this.getSupportActionBar()).hide();
-//        }
-//        catch (NullPointerException ignored){}
-
         setContentView(R.layout.activity_details);
         setTitle("");
 
-
-
-
+        //creates the back button on the action bar
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
         moviePoster = findViewById(R.id.movie_poster_iv);
@@ -67,9 +56,6 @@ public class Details extends AppCompatActivity {
         TextView movieReleaseDate = findViewById(R.id.release_date_tv);
 
         final ImageView imageView = findViewById(R.id.imageButton);
-
-
-
 
         Intent intent = getIntent();
 
@@ -88,7 +74,6 @@ public class Details extends AppCompatActivity {
             final String ratingText = String.valueOf(movie.getRating() + "/10");
             movieRating.setText(ratingText);
 
-            //TODO add a listener to the rating bar to be able to rate the movie in real time
             final float ratingFloat = (float) (movie.getRating() / 2);
             ratingBar.setRating(ratingFloat);
             ratingBar.setIndicator(true);
@@ -96,10 +81,7 @@ public class Details extends AppCompatActivity {
             moviePlot.setText(movie.getPlot());
             movieReleaseDate.setText(movie.getReleaseDate().substring(0, 4));
 
-
-
             new AsyncTask<String, Void, Drawable>() {
-
 
                 @Override
                 protected Drawable doInBackground(String... strings) {
@@ -117,7 +99,6 @@ public class Details extends AppCompatActivity {
 
             System.out.println("TRAILER ID: " + trailerId);
 
-
             //listen for click on the trailer image and make request to play trailer in youtube
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -127,8 +108,13 @@ public class Details extends AppCompatActivity {
             });
 
         }
+    }
 
-
+    //ends the current activity and return true when the back button is pressed
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -162,20 +148,15 @@ public class Details extends AppCompatActivity {
 
                 return Objects.requireNonNull(response.body()).string();
             }
-        }.execute("https://api.themoviedb.org/3/movie/" + movie.getId() + "/videos?api_key=1b383c179fbd530ae938ea17f25198ae&language=en-US");
+        }.execute("https://api.themoviedb.org/3/movie/" + movie.getId() + "/videos?api_key=" + API_KEY + "&language=en-US");
     }
 
 
     public static void watchYoutubeVideo(Context context, String id){
         Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
-//        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + "ZJDMWVZta3M"));
 
         Intent webIntent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("http://www.youtube.com/watch?v=" + id));
-
-//        Intent webIntent = new Intent(Intent.ACTION_VIEW,
-//                Uri.parse("http://www.youtube.com/watch?v=" + "ZJDMWVZta3M"));
-
         try {
             context.startActivity(appIntent);
         } catch (ActivityNotFoundException ex) {

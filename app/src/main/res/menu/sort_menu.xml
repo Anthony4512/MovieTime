@@ -3,6 +3,6 @@
 
     <item android:id="@+id/most_popular_menu" android:title="Most Popular">Most Popular?</item>
     <item android:id="@+id/highest_rating_menu" android:title="Highest Rating">Highest Rating</item>
-
+    <item android:id="@+id/favorites_menu" android:title="Favorites">Favorites</item>
 
 </menu>
