@@ -3,8 +3,8 @@ package com.amirely.elite.popularmovies;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import Models.Movie;
+import models.Movie;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -26,13 +26,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     //replace the string with the api key to be able to use the app
     private final String API_KEY =   "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
 
-
-
     private List<Movie> mMovieList;
     private RecyclerView recyclerView;
     private String SORT_BY;
     private String MOVIES_URL;
-    private MovieAdapter movieAdapter;
+    private MovieAdapter mMovieAdapter;
+
+    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +44,45 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         MOVIES_URL = "https://api.themoviedb.org/3/movie/" + SORT_BY + "?api_key=" + API_KEY + "&language=en-US&page=1";
 
         mMovieList = new ArrayList<>();
+
+
+
         new MovieFetcher().execute(MOVIES_URL);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this, 3);
 
         recyclerView = findViewById(R.id.recycler_view);
-        movieAdapter = new MovieAdapter(mMovieList, this);
+
+        mMovieAdapter = new MovieAdapter(mMovieList, this);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setAdapter(movieAdapter);
+        recyclerView.setAdapter(mMovieAdapter);
+
+
+//        RecyclerView recyclerView1 = findViewById(R.id.review_RV);
+
+
+
+
+//        TextView readReviewTv = findViewById(R.id.read_reviews_tv);
+
+//        readReviewTv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, ReviewsActivity.class);
+//
+//                startActivity(intent);
+//
+//            }
+//        });
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+
     }
 
     @Override
@@ -115,20 +147,20 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 SORT_BY = "top_rated";
                 updateMovieUrl(SORT_BY);
                 new MovieFetcher().execute(this.MOVIES_URL);
-                movieAdapter.notifyDataSetChanged();
+                mMovieAdapter.notifyDataSetChanged();
                 return true;
             case R.id.most_popular_menu:
                 SORT_BY = "popular";
                 updateMovieUrl(SORT_BY);
                 new MovieFetcher().execute(this.MOVIES_URL);
-                movieAdapter.notifyDataSetChanged();
+                mMovieAdapter.notifyDataSetChanged();
                 return true;
 
             case R.id.favorites_menu:
 //                SORT_BY = "favorites";
 //                updateMovieUrl(SORT_BY);
 //                new MovieFetcher().execute(this.MOVIES_URL);
-//                movieAdapter.notifyDataSetChanged();
+//                mMovieAdapter.notifyDataSetChanged();
                 return true;
 
             default:

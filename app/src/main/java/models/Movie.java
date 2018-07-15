@@ -1,17 +1,23 @@
-package Models;
+package models;
 
+
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
+
+//@Entity
 public class Movie implements Serializable{
 
+//    @PrimaryKey
+    private final @NonNull String id;
     private final String posterString;
     private final double rating;
     private final String plot;
     private final String title;
     private final String releaseDate;
     private String trailerId;
-    private final String id;
+
 
     public Movie(String id, String posterString, String title, double rating, String plot, String releaseDate) {
         this.posterString = posterString;

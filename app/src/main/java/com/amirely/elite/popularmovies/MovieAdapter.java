@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.util.List;
-import Models.Movie;
+import models.Movie;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder> {
 
@@ -25,7 +25,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
     final private MovieListClickListener mMovieClickListener;
 
 
-    public MovieAdapter(List<Movie> movieList, MovieListClickListener movieListClickListener) {
+    MovieAdapter(List<Movie> movieList, MovieListClickListener movieListClickListener) {
         this.mMovieList = movieList;
         mMovieClickListener = movieListClickListener;
     }

@@ -78,7 +78,7 @@
                         android:paddingTop="10dp"/>
 
                     <TextView
-                        android:id="@+id/reviews_tv"
+                        android:id="@+id/read_reviews_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="10dp"
@@ -87,6 +87,7 @@
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:text="Read reviews"
+                        android:onClick="readReviews"
                         android:textColor="@color/colorPrimaryDark"/>
                 </LinearLayout>
 
