@@ -1,15 +1,17 @@
 package models;
 
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
 
-//@Entity
+@Entity
 public class Movie implements Serializable{
 
-//    @PrimaryKey
+    @PrimaryKey
     private final @NonNull String id;
     private final String posterString;
     private final double rating;

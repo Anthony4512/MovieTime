@@ -14,7 +14,7 @@
     android:padding="2dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    </android.support.v7.widget.RecyclerView>
+</android.support.v7.widget.RecyclerView>
 
 
 </FrameLayout>

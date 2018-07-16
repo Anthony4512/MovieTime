@@ -2,12 +2,15 @@ package models;
 
 public class Review {
 
+    private String id;
     private String author;
     private String text;
     private String date;
 
 
-    public Review(String author, String text, String date) {
+
+    public Review(String id, String author, String text, String date) {
+        this.id = id;
         this.author = author;
         this.text = text;
         this.date = date;
@@ -35,6 +38,14 @@ public class Review {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
