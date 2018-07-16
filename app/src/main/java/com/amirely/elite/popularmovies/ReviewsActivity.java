@@ -26,7 +26,7 @@ public class ReviewsActivity extends AppCompatActivity {
     private ReviewAdapter mReviewAdapter;
     private LinearLayoutManager mLayoutManager;
 
-    private final String API_KEY = "YOUR API KEY GOES HERE";
+    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

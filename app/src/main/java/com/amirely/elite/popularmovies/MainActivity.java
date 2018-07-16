@@ -24,16 +24,13 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieListClickListener {
 
     //replace the string with the api key to be able to use the app
-    private final String API_KEY = "YOUR API KEY GOES HERE";
+    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
 
     private List<Movie> mMovieList;
     private RecyclerView recyclerView;
     private String SORT_BY;
     private String MOVIES_URL;
     private MovieAdapter mMovieAdapter;
-
-    
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

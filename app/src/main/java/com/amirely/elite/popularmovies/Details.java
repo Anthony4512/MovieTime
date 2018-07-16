@@ -27,7 +27,7 @@ public class Details extends AppCompatActivity {
 
 //    private final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2";
 
-    private final String API_KEY = "YOUR API KEY GOES HERE";
+    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
     private final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780/";
 
     private ImageView moviePoster;

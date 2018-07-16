@@ -1,25 +1,35 @@
 package models;
 
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
 
-//@Entity
+@Entity
 public class Movie implements Serializable{
 
-//    @PrimaryKey
+    @PrimaryKey
     private final @NonNull String id;
+
+    @ColumnInfo
     private final String posterString;
+    @ColumnInfo
     private final double rating;
+    @ColumnInfo
     private final String plot;
+    @ColumnInfo
     private final String title;
+    @ColumnInfo
     private final String releaseDate;
+    @ColumnInfo
     private String trailerId;
 
 
-    public Movie(String id, String posterString, String title, double rating, String plot, String releaseDate) {
+    public Movie(@NonNull String id, String posterString, String title, double rating, String plot, String releaseDate) {
         this.posterString = posterString;
         this.title = title;
         this.rating = rating;
@@ -27,6 +37,8 @@ public class Movie implements Serializable{
         this.releaseDate = releaseDate;
         this.id = id;
     }
+
+
 
     public String getTitle() {
         return title;

@@ -92,20 +92,12 @@ class JsonUtils {
 
                     Review review = new Review(author, text, "");
 
-//                    System.out.println("REVIEW: " + review.toString());
-
                     reviewList.add(review);
-
                 }
             }
             else {
                 Log.d("JSON REVIEW ARRAY","JSON REVIEWS ARRAY IS EMPTY OR NULL");
             }
-
-            for (Review rev : reviewList) {
-                System.out.println(rev.toString());
-            }
-
             return reviewList;
 
         } catch (JSONException e) {
