@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import models.Movie;
+import models.Review;
 
 class JsonUtils {
 
@@ -43,7 +44,7 @@ class JsonUtils {
 
                     Movie movie = new Movie(movieId, imageUrl, title, rating, plot, release_date);
 
-                    System.out.println("ID = " + movie.getId());
+//                    System.out.println("ID = " + movie.getId());
 
                     moviesList.add(movie);
                 }
@@ -68,6 +69,44 @@ class JsonUtils {
             String videoId = movieObject.optString("key");
 
             return videoId;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<Review> getMovieReviews(String json) {
+        try {
+            List<Review> reviewList = new ArrayList<>();
+            JSONObject reviewJsonObject = new JSONObject(json);
+            JSONArray  reviewsJsonArray = reviewJsonObject.getJSONArray("results");
+
+            if(null != reviewsJsonArray && reviewsJsonArray.length() != 0) {
+                for (int i = 0; i < reviewsJsonArray.length(); i++) {
+
+                    JSONObject reviewObject = reviewsJsonArray.getJSONObject(i);
+
+                    String author = reviewObject.optString("author");
+                    String text = reviewObject.optString("content");
+
+                    Review review = new Review(author, text, "");
+
+//                    System.out.println("REVIEW: " + review.toString());
+
+                    reviewList.add(review);
+
+                }
+            }
+            else {
+                Log.d("JSON REVIEW ARRAY","JSON REVIEWS ARRAY IS EMPTY OR NULL");
+            }
+
+            for (Review rev : reviewList) {
+                System.out.println(rev.toString());
+            }
+
+            return reviewList;
 
         } catch (JSONException e) {
             e.printStackTrace();

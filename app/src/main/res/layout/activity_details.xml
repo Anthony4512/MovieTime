@@ -87,7 +87,6 @@
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:text="Read reviews"
-                        android:onClick="readReviews"
                         android:textColor="@color/colorPrimaryDark"/>
                 </LinearLayout>
 

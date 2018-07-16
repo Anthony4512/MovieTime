@@ -9,22 +9,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import models.Movie;
-import models.Review;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -33,31 +27,12 @@ public class Details extends AppCompatActivity {
 
 //    private final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2";
 
-    private final String API_KEY =   "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
+    private final String API_KEY = "YOUR API KEY GOES HERE";
     private final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780/";
 
     private ImageView moviePoster;
 
     String trailerId;
-
-    private List<Review> mReviewList;
-    private RecyclerView mRecyclerView;
-    private ReviewAdapter mReviewAdapter;
-    private LinearLayoutManager mLayoutManager;
-
-
-    public void getFakeReviews() {
-        for (int i = 0; i < 6; i++) {
-            Review review = new Review("Anthony Mirely", "Schema export directory is not provided to the annotation processor so we cannot export the schema. You can either provide `room.schemaLocation` annotation processor argument OR set exportSchema to false.", "may 22, 4:12pm");
-            Review review1 = new Review("Nora Reguig", "This is some text for the review... maybe i should write more to see if this comment looks better with multi-lines", "aug 23, 9:23pm");
-
-            this.mReviewList.add(review);
-            this.mReviewList.add(review1);
-        }
-
-    }
-
-
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -70,32 +45,8 @@ public class Details extends AppCompatActivity {
         //creates the back button on the action bar
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        mReviewList = new ArrayList<>();
-
-        //TODO GET REVIEWS FROM API
-        getFakeReviews();
-
-        int rvId = R.id.review_RV;
-
-        System.out.println("RV ID!!: " + rvId);
-
-
-
-//        reviewRecyclerView = new RecyclerView(this);
-
-        mRecyclerView = (RecyclerView)findViewById(R.id.review_RV);
-
-        mReviewAdapter = new ReviewAdapter(mReviewList);
-        mLayoutManager = new LinearLayoutManager(this);
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mRecyclerView.setAdapter(mReviewAdapter);
-        mRecyclerView.setAdapter(mReviewAdapter);
-
-
         moviePoster = findViewById(R.id.movie_poster_iv);
-//        TextView movieTitle = findViewById(R.id.movie_title_tv);
+
         TextView movieRating = findViewById(R.id.user_rating_tv);
         SimpleRatingBar ratingBar = findViewById(R.id.user_rating_bar);
         TextView moviePlot = findViewById(R.id.plot_tv);
@@ -103,17 +54,16 @@ public class Details extends AppCompatActivity {
 
         final ImageView imageView = findViewById(R.id.imageButton);
 
+        TextView readReviewsTV = findViewById(R.id.read_reviews_tv);
+
+
         Intent intent = getIntent();
 
-        Movie movie = (Movie)intent.getSerializableExtra("currentMovie");
+        final Movie movie = (Movie)intent.getSerializableExtra("currentMovie");
         if(movie != null) {
             setTitle(movie.getTitle());
 
             requestTrailerId(movie);
-
-//        System.out.println("POSTER STRING: " + movie.getPosterString());
-
-//        movieTitle.setText(movie.getTitle());
 
             final String ratingText = String.valueOf(movie.getRating() + "/10");
             movieRating.setText(ratingText);
@@ -124,6 +74,16 @@ public class Details extends AppCompatActivity {
 
             moviePlot.setText(movie.getPlot());
             movieReleaseDate.setText(movie.getReleaseDate().substring(0, 4));
+
+            readReviewsTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Details.this, ReviewsActivity.class);
+                    intent.putExtra("movieId", movie.getId());
+                    startActivity(intent);
+                }
+            });
+
 
             new AsyncTask<String, Void, Drawable>() {
 
@@ -221,11 +181,4 @@ public class Details extends AppCompatActivity {
         moviePoster.setImageDrawable(drawable);
     }
 
-
-    public void readReviews(View view) {
-        Intent intent = new Intent(Details.this, ReviewsActivity.class);
-
-        startActivity(intent);
-
-    }
 }

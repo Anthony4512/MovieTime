@@ -24,7 +24,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieListClickListener {
 
     //replace the string with the api key to be able to use the app
-    private final String API_KEY =   "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
+    private final String API_KEY = "YOUR API KEY GOES HERE";
 
     private List<Movie> mMovieList;
     private RecyclerView recyclerView;
@@ -56,26 +56,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mMovieAdapter = new MovieAdapter(mMovieList, this);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mMovieAdapter);
-
-
-//        RecyclerView recyclerView1 = findViewById(R.id.review_RV);
-
-
-
-
-//        TextView readReviewTv = findViewById(R.id.read_reviews_tv);
-
-//        readReviewTv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, ReviewsActivity.class);
-//
-//                startActivity(intent);
-//
-//            }
-//        });
-
-
     }
 
     @Override
