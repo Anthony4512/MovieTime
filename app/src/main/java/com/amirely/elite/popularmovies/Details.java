@@ -1,6 +1,7 @@
 package com.amirely.elite.popularmovies;
 
 import android.annotation.SuppressLint;
+import android.arch.persistence.room.Room;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +11,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amirely.elite.popularmovies.data.MovieDatabase;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import java.io.IOException;
@@ -27,8 +31,14 @@ public class Details extends AppCompatActivity {
 
 //    private final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2";
 
-    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
+    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; // "YOUR API KEY GOES HERE";
     private final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780/";
+
+
+    private static final String DATABASE_NAME = "movies_db";
+    private MovieDatabase movieDatabase;
+
+
 
     private ImageView moviePoster;
 
@@ -45,6 +55,13 @@ public class Details extends AppCompatActivity {
         //creates the back button on the action bar
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+
+        movieDatabase = Room.databaseBuilder(getApplicationContext(),
+                MovieDatabase.class, DATABASE_NAME)
+                .fallbackToDestructiveMigration()
+                .build();
+
+
         moviePoster = findViewById(R.id.movie_poster_iv);
 
         TextView movieRating = findViewById(R.id.user_rating_tv);
@@ -56,11 +73,17 @@ public class Details extends AppCompatActivity {
 
         TextView readReviewsTV = findViewById(R.id.read_reviews_tv);
 
+        //like button handle
+        final CheckBox likeIcon = findViewById(R.id.likeIcon);
+
 
         Intent intent = getIntent();
 
         final Movie movie = (Movie)intent.getSerializableExtra("currentMovie");
         if(movie != null) {
+
+            likeIcon.setVisibility(View.VISIBLE);
+
             setTitle(movie.getTitle());
 
             requestTrailerId(movie);
@@ -100,7 +123,6 @@ public class Details extends AppCompatActivity {
 
             }.execute(movie.getPosterString());
 
-            System.out.println("TRAILER ID: " + trailerId);
 
             //listen for click on the trailer image and make request to play trailer in youtube
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +131,34 @@ public class Details extends AppCompatActivity {
                     watchYoutubeVideo(imageView.getContext(), trailerId);
                 }
             });
+
+            //TODO implement the like button functionality
+            likeIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(likeIcon.isChecked()) {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                movieDatabase.movieDao().insertMovie(movie);
+                            }
+                        }) .start();
+
+                    }
+                    else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                movieDatabase.movieDao().deleteMovie(movie);
+                            }
+                        }) .start();
+                    }
+                    Toast.makeText(Details.this, "VALUE OF LIKE: " + likeIcon.isChecked(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            likeIcon.setVisibility(View.INVISIBLE);
         }
     }
 

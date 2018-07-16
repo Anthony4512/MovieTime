@@ -89,15 +89,18 @@ class JsonUtils {
 
                     String author = reviewObject.optString("author");
                     String text = reviewObject.optString("content");
+                    String id = reviewObject.optString("id");
 
-                    Review review = new Review(author, text, "");
+                    Review review = new Review(id, author, text, "");
 
                     reviewList.add(review);
+
                 }
             }
             else {
                 Log.d("JSON REVIEW ARRAY","JSON REVIEWS ARRAY IS EMPTY OR NULL");
             }
+
             return reviewList;
 
         } catch (JSONException e) {

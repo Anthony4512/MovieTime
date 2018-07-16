@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +29,7 @@ public class ReviewsActivity extends AppCompatActivity {
     private ReviewAdapter mReviewAdapter;
     private LinearLayoutManager mLayoutManager;
 
-    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
+    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; // "YOUR API KEY GOES HERE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +41,6 @@ public class ReviewsActivity extends AppCompatActivity {
         String movieId = intent.getStringExtra("movieId");
 
         System.out.println(movieId);
-
-//        requestMoviesReviews(movieId);
 
         mRecyclerView = findViewById(R.id.review_RV);
 
@@ -86,7 +87,13 @@ public class ReviewsActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                adapterSwap();
+                if(mReviewList.isEmpty()) {
+                    Toast.makeText(ReviewsActivity.this, "THERE IS NO REVIEWS FOR THIS MOVIE", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    adapterSwap();
+                }
+
             }
 
             String run(String url) throws IOException {

@@ -17,15 +17,18 @@ public interface MovieDao {
 
 
     @Query("SELECT * FROM Movie")
-    LiveData<List<Movie>> getAllMovies();
+    List<Movie> getListOfMovies();
 
     @Query("SELECT * FROM Movie WHERE id=:Id")
-    LiveData<Movie> getMovieById(String Id);
+    Movie getMovieById(String Id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insertMovie(Movie movie);
 
     @Delete
     void deleteMovie(Movie movie);
+
+    @Query("SELECT COUNT(*) from Movie")
+    int countMovies();
 
 }
