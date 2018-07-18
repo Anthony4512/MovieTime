@@ -17,10 +17,10 @@ public interface MovieDao {
 
 
     @Query("SELECT * FROM Movie")
-    List<Movie> getListOfMovies();
+    LiveData<List<Movie>> getListOfMovies();
 
     @Query("SELECT * FROM Movie WHERE id=:Id")
-    Movie getMovieById(String Id);
+    LiveData<Movie> getMovieById(String Id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insertMovie(Movie movie);

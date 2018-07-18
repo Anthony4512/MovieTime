@@ -61,4 +61,17 @@ public class Movie implements Serializable{
     public String getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id='" + id + '\'' +
+                ", posterString='" + posterString + '\'' +
+                ", rating=" + rating +
+                ", plot='" + plot + '\'' +
+                ", title='" + title + '\'' +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", trailerId='" + trailerId + '\'' +
+                '}';
+    }
 }

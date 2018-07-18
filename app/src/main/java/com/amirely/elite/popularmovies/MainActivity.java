@@ -1,13 +1,17 @@
 package com.amirely.elite.popularmovies;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,7 +31,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieListClickListener {
 
     //replace the string with the api key to be able to use the app
-    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; // "YOUR API KEY GOES HERE";
+    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; //"YOUR API KEY GOES HERE";
 
     private List<Movie> mMovieList;
     private RecyclerView recyclerView;
@@ -38,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private static final String DATABASE_NAME = "movies_db";
     private MovieDatabase movieDatabase;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mMovieAdapter = new MovieAdapter(mMovieList, this);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(mMovieAdapter);
+
     }
 
     @Override
@@ -156,8 +160,27 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
+//    @SuppressLint("StaticFieldLeak")
     private void updateMoviesFromDb() {
+
+
+        LiveData<List<Movie>> movieList = movieDatabase.movieDao().getListOfMovies();
+
+        movieList.observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                Log.d("DATA CHANGED", "data on updateMovies changed");
+                Log.d("MOVIES", movies.toString());
+
+                mMovieAdapter.setmMovieList(movies);
+
+                mMovieAdapter.notifyDataSetChanged();
+
+            }
+        });
+
+
+
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -166,48 +189,53 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 //            }
 //        }) .start();
 
-        new AsyncTask<Void, Void, Void>() {
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                mMovieList = movieDatabase.movieDao().getListOfMovies();
-                mMovieAdapter.notifyDataSetChanged();
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                adapterSwap();
-            }
 
-            //            final OkHttpClient client = new OkHttpClient();
+//        new AsyncTask<Void, Void, Void>() {
 //
 //            @Override
-//            protected Void doInBackground(String... strings) {
-//                try {
-//                    String results = run(strings[0]);
+//            protected Void doInBackground(Void... voids) {
+////                mMovieList = movieDatabase.movieDao().getListOfMovies();
 //
-//                    trailerId = JsonUtils.getTrailersFromId(results);
 //
-//                    return"";
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+//                mMovieAdapter.notifyDataSetChanged();
 //                return null;
 //            }
-
-//            String run(String url) throws IOException {
-//                Request request = new Request.Builder()
-//                        .url(url)
-//                        .build();
 //
-//                Response response = client.newCall(request).execute();
-//
-//                return Objects.requireNonNull(response.body()).string();
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//                super.onPostExecute(aVoid);
+//                adapterSwap();
 //            }
-        }.execute();
+//
+//            //            final OkHttpClient client = new OkHttpClient();
+////
+////            @Override
+////            protected Void doInBackground(String... strings) {
+////                try {
+////                    String results = run(strings[0]);
+////
+////                    trailerId = JsonUtils.getTrailersFromId(results);
+////
+////                    return"";
+////
+////                } catch (IOException e) {
+////                    e.printStackTrace();
+////                }
+////                return null;
+////            }
+//
+////            String run(String url) throws IOException {
+////                Request request = new Request.Builder()
+////                        .url(url)
+////                        .build();
+////
+////                Response response = client.newCall(request).execute();
+////
+////                return Objects.requireNonNull(response.body()).string();
+////            }
+//        }.execute();
     }
 
     public void updateMovieUrl(String sortBy) {

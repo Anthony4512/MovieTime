@@ -21,13 +21,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
         void onMovieClick(int movieClickedIndex);
     }
 
-    private final List<Movie> mMovieList;
+    private List<Movie> mMovieList;
     final private MovieListClickListener mMovieClickListener;
 
 
     MovieAdapter(List<Movie> movieList, MovieListClickListener movieListClickListener) {
         this.mMovieList = movieList;
         mMovieClickListener = movieListClickListener;
+    }
+
+    public List<Movie> getmMovieList() {
+        return mMovieList;
+    }
+
+    public void setmMovieList(List<Movie> movieList) {
+        this.mMovieList = movieList;
     }
 
     @NonNull
@@ -79,5 +87,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
             int clickedPosition = getAdapterPosition();
             mMovieClickListener.onMovieClick(clickedPosition);
         }
+
+
     }
 }
