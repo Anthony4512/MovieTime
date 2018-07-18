@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void onMovieClick(int movieClickedIndex) {
         Intent intent = new Intent(MainActivity.this, Details.class);
+
         intent.putExtra("currentMovie", mMovieList.get(movieClickedIndex));
 
         startActivity(intent);
@@ -164,18 +165,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void updateMoviesFromDb() {
 
 
-        LiveData<List<Movie>> movieList = movieDatabase.movieDao().getListOfMovies();
+        final LiveData<List<Movie>> movieList = movieDatabase.movieDao().getListOfMovies();
 
         movieList.observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
                 Log.d("DATA CHANGED", "data on updateMovies changed");
-                Log.d("MOVIES", movies.toString());
+                Log.d("MOVIES", movies.get(0).toString());
 
-                mMovieAdapter.setmMovieList(movies);
+                mMovieList = movies;
 
-                mMovieAdapter.notifyDataSetChanged();
-
+                MovieAdapter adapter = new MovieAdapter(mMovieList, MainActivity.this);
+//                mMovieAdapter.setmMovieList(movies);
+                recyclerView.swapAdapter(adapter, true);
             }
         });
 

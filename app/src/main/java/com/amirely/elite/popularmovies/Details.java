@@ -79,6 +79,7 @@ public class Details extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+
         final Movie movie = (Movie)intent.getSerializableExtra("currentMovie");
         if(movie != null) {
 
