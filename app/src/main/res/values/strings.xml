@@ -8,6 +8,10 @@
     <string name="movie_plot_label">Movie Plot: </string>
     <string name="default_movie_title">Default Title</string>
     <string name="trailer_label">Trailer: </string>
-
-
+    <string name="read_reviews">Read reviews</string>
+    <string name="trailer_play_button_description">Button for playing trailers</string>
+    <string name="review_author_label">Review Author</string>
+    <string name="most_popular_menu_title">Most Popular</string>
+    <string name="highest_rating_menu_title">Highest Rating</string>
+    <string name="favorites_menu_title">Favorites</string>
 </resources>

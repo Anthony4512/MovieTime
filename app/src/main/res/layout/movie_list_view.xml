@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:background="#0fb784"
+            android:background="@color/title_background"
             android:text="@string/default_movie_title"
             android:textColor="#ffff"
             android:textSize="13sp"

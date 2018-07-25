@@ -29,38 +29,27 @@ import okhttp3.Response;
 
 public class Details extends AppCompatActivity {
 
-//    private final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300_and_h450_bestv2";
-
-    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; // "YOUR API KEY GOES HERE";
+    private final String API_KEY = "YOUR API KEY GOES HERE";
     private final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780/";
-
-
     private static final String DATABASE_NAME = "movies_db";
     private MovieDatabase movieDatabase;
-
-
-
     private ImageView moviePoster;
-
-    String trailerId;
+    private String trailerId;
 
     @SuppressLint("StaticFieldLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_details);
         setTitle("");
 
         //creates the back button on the action bar
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-
         movieDatabase = Room.databaseBuilder(getApplicationContext(),
                 MovieDatabase.class, DATABASE_NAME)
                 .fallbackToDestructiveMigration()
                 .build();
-
 
         moviePoster = findViewById(R.id.movie_poster_iv);
 
@@ -73,17 +62,34 @@ public class Details extends AppCompatActivity {
 
         TextView readReviewsTV = findViewById(R.id.read_reviews_tv);
 
-        //like button handle
         final CheckBox likeIcon = findViewById(R.id.likeIcon);
 
-
         Intent intent = getIntent();
-
 
         final Movie movie = (Movie)intent.getSerializableExtra("currentMovie");
         if(movie != null) {
 
             likeIcon.setVisibility(View.VISIBLE);
+
+            System.out.println("ENTERED MOVIE != NULL");
+
+            new AsyncTask<Void, Void, Integer>() {
+                @Override
+                protected Integer doInBackground(Void... voids) {
+                    int movieCount = movieDatabase.movieDao().getMovieCount(movie.getId());
+                    return movieCount;
+                }
+
+                @Override
+                protected void onPostExecute(Integer integer) {
+                    super.onPostExecute(integer);
+                    System.out.println("ENTEREd POST EXECUTE");
+                    if(integer > 0) {
+                        System.out.println("ENTEREd INT > 0");
+                        likeIcon.setChecked(true);
+                    }
+                }
+            }.execute();
 
             setTitle(movie.getTitle());
 
@@ -108,7 +114,6 @@ public class Details extends AppCompatActivity {
                 }
             });
 
-
             new AsyncTask<String, Void, Drawable>() {
 
                 @Override
@@ -121,9 +126,7 @@ public class Details extends AppCompatActivity {
                     super.onPostExecute(drawable);
                     addDrawable(drawable);
                 }
-
             }.execute(movie.getPosterString());
-
 
             //listen for click on the trailer image and make request to play trailer in youtube
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -132,8 +135,6 @@ public class Details extends AppCompatActivity {
                     watchYoutubeVideo(imageView.getContext(), trailerId);
                 }
             });
-
-            //TODO implement the like button functionality
             likeIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -144,7 +145,6 @@ public class Details extends AppCompatActivity {
                                 movieDatabase.movieDao().insertMovie(movie);
                             }
                         }) .start();
-
                     }
                     else {
                         new Thread(new Runnable() {
@@ -172,8 +172,6 @@ public class Details extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-
-
     //ends the current activity and return true when the back button is pressed
     @Override
     public boolean onSupportNavigateUp(){
@@ -192,9 +190,7 @@ public class Details extends AppCompatActivity {
             protected String doInBackground(String... strings) {
                 try {
                     String results = run(strings[0]);
-
                     trailerId = JsonUtils.getTrailersFromId(results);
-
                     return"";
 
                 } catch (IOException e) {
@@ -207,14 +203,11 @@ public class Details extends AppCompatActivity {
                 Request request = new Request.Builder()
                         .url(url)
                         .build();
-
                 Response response = client.newCall(request).execute();
-
                 return Objects.requireNonNull(response.body()).string();
             }
         }.execute("https://api.themoviedb.org/3/movie/" + movie.getId() + "/videos?api_key=" + API_KEY + "&language=en-US");
     }
-
 
     public static void watchYoutubeVideo(Context context, String id){
         Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
@@ -231,5 +224,4 @@ public class Details extends AppCompatActivity {
     private void addDrawable(Drawable drawable) {
         moviePoster.setImageDrawable(drawable);
     }
-
 }

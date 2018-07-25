@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/most_popular_menu" android:title="Most Popular">Most Popular?</item>
-    <item android:id="@+id/highest_rating_menu" android:title="Highest Rating">Highest Rating</item>
-    <item android:id="@+id/favorites_menu" android:title="Favorites">Favorites</item>
+    <item android:id="@+id/most_popular_menu" android:title="@string/most_popular_menu_title">Most Popular</item>
+    <item android:id="@+id/highest_rating_menu" android:title="@string/highest_rating_menu_title">Highest Rating</item>
+    <item android:id="@+id/favorites_menu" android:title="@string/favorites_menu_title">Favorites</item>
 
 </menu>

@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="light_blue">#a8c2fb</color>
+    <color name="title_background">#0fb784</color>
+    <color name="review_rv_background">#cbffcd</color>
+
+
 </resources>

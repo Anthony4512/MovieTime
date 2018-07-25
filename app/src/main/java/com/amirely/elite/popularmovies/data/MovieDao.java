@@ -1,6 +1,5 @@
 package com.amirely.elite.popularmovies.data;
 
-
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -15,7 +14,6 @@ import models.Movie;
 @Dao
 public interface MovieDao {
 
-
     @Query("SELECT * FROM Movie")
     LiveData<List<Movie>> getListOfMovies();
 
@@ -28,7 +26,6 @@ public interface MovieDao {
     @Delete
     void deleteMovie(Movie movie);
 
-    @Query("SELECT COUNT(*) from Movie")
-    int countMovies();
-
+    @Query("SELECT COUNT(*) FROM Movie WHERE id=:Id")
+    int getMovieCount(String Id);
 }

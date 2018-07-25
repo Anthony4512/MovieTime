@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -23,13 +21,9 @@ import okhttp3.Response;
 
 public class ReviewsActivity extends AppCompatActivity {
 
-
     private List<Review> mReviewList;
     private RecyclerView mRecyclerView;
-    private ReviewAdapter mReviewAdapter;
-    private LinearLayoutManager mLayoutManager;
-
-    private final String API_KEY = "1b383c179fbd530ae938ea17f25198ae"; // "YOUR API KEY GOES HERE";
+    private final String API_KEY = "YOUR API KEY GOES HERE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +34,10 @@ public class ReviewsActivity extends AppCompatActivity {
 
         String movieId = intent.getStringExtra("movieId");
 
-        System.out.println(movieId);
-
         mRecyclerView = findViewById(R.id.review_RV);
 
-        mReviewAdapter = new ReviewAdapter(mReviewList);
-        mLayoutManager = new LinearLayoutManager(this);
+        ReviewAdapter mReviewAdapter = new ReviewAdapter(mReviewList);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
 
