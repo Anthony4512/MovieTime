@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import com.amirely.elite.popularmovies.utils.ApiKeyProvider;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +25,6 @@ public class ReviewsActivity extends AppCompatActivity {
 
     private List<Review> mReviewList;
     private RecyclerView mRecyclerView;
-    private final String API_KEY = "YOUR API KEY GOES HERE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +98,7 @@ public class ReviewsActivity extends AppCompatActivity {
 
                 return Objects.requireNonNull(response.body()).string();
             }
-        }.execute("https://api.themoviedb.org/3/movie/" + movieId + "/reviews?api_key=" + API_KEY + "&language=en-US");
+        }.execute("https://api.themoviedb.org/3/movie/" + movieId + "/reviews?api_key=" + ApiKeyProvider.API_KEY + "&language=en-US");
     }
 
 }

@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.amirely.elite.popularmovies.data.MovieDatabase;
+import com.amirely.elite.popularmovies.utils.ApiKeyProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,9 +31,6 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieListClickListener {
 
-    //replace the string with the api key to be able to use the app
-    private final String API_KEY = "YOUR API KEY GOES HERE";
-
     private List<Movie> mMovieList;
     private RecyclerView recyclerView;
     private String SORT_BY;
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         setContentView(R.layout.activity_main);
         SORT_BY = "popular";
 
-        MOVIES_URL = "https://api.themoviedb.org/3/movie/" + SORT_BY + "?api_key=" + API_KEY + "&language=en-US&page=1";
+        MOVIES_URL = "https://api.themoviedb.org/3/movie/" + SORT_BY + "?api_key=" + ApiKeyProvider.API_KEY + "&language=en-US&page=1";
 
         mMovieList = new ArrayList<>();
         MovieDatabase movieDatabase = Room.databaseBuilder(getApplicationContext(),
@@ -159,6 +157,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     public void updateMovieUrl(String sortBy) {
-        this.MOVIES_URL = "https://api.themoviedb.org/3/movie/" + sortBy + "?api_key=" + API_KEY + "&language=en-US&page=1";
+        this.MOVIES_URL = "https://api.themoviedb.org/3/movie/" + sortBy + "?api_key=" + ApiKeyProvider.API_KEY + "&language=en-US&page=1";
     }
 }

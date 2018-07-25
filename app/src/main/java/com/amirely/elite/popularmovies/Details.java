@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amirely.elite.popularmovies.data.MovieDatabase;
+import com.amirely.elite.popularmovies.utils.ApiKeyProvider;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import java.io.IOException;
@@ -29,7 +30,6 @@ import okhttp3.Response;
 
 public class Details extends AppCompatActivity {
 
-    private final String API_KEY = "YOUR API KEY GOES HERE";
     private final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780/";
     private static final String DATABASE_NAME = "movies_db";
     private MovieDatabase movieDatabase;
@@ -206,7 +206,7 @@ public class Details extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
                 return Objects.requireNonNull(response.body()).string();
             }
-        }.execute("https://api.themoviedb.org/3/movie/" + movie.getId() + "/videos?api_key=" + API_KEY + "&language=en-US");
+        }.execute("https://api.themoviedb.org/3/movie/" + movie.getId() + "/videos?api_key=" + ApiKeyProvider.API_KEY + "&language=en-US");
     }
 
     public static void watchYoutubeVideo(Context context, String id){
