@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amirely.elite.popularmovies.data.MovieDatabase;
 import com.amirely.elite.popularmovies.utils.ApiKeyProvider;
@@ -39,7 +38,6 @@ public class DetailsActivity extends AppCompatActivity {
     private MovieDatabase movieDatabase;
     private ImageView moviePoster;
     private String trailerId;
-
     private List<Review> mReviewList;
     private RecyclerView mRecyclerView;
 
@@ -66,8 +64,6 @@ public class DetailsActivity extends AppCompatActivity {
         TextView movieReleaseDate = findViewById(R.id.release_date_tv);
 
         final ImageView imageView = findViewById(R.id.imageButton);
-
-//        TextView readReviewsTV = findViewById(R.id.read_reviews_tv);
 
         final CheckBox likeIcon = findViewById(R.id.likeIcon);
 
@@ -108,12 +104,6 @@ public class DetailsActivity extends AppCompatActivity {
 
             loadReviews(movie.getId());
 
-//            readReviewsTV.setOnClickListener(view -> {
-//                Intent intent1 = new Intent(DetailsActivity.this, ReviewsActivity.class);
-//                intent1.putExtra("movieId", movie.getId());
-//                startActivity(intent1);
-//            });
-
             new AsyncTask<String, Void, Drawable>() {
 
                 @Override
@@ -129,32 +119,13 @@ public class DetailsActivity extends AppCompatActivity {
             }.execute(movie.getPosterString());
 
             //listen for click on the trailer image and make request to play trailer in youtube
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    watchYoutubeVideo(imageView.getContext(), trailerId);
+            imageView.setOnClickListener(view -> watchYoutubeVideo(imageView.getContext(), trailerId));
+            likeIcon.setOnClickListener(view -> {
+                if(likeIcon.isChecked()) {
+                    new Thread(() -> movieDatabase.movieDao().insertMovie(movie)) .start();
                 }
-            });
-            likeIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(likeIcon.isChecked()) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                movieDatabase.movieDao().insertMovie(movie);
-                            }
-                        }) .start();
-                    }
-                    else {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                movieDatabase.movieDao().deleteMovie(movie);
-                            }
-                        }) .start();
-                    }
-                    Toast.makeText(DetailsActivity.this, "VALUE OF LIKE: " + likeIcon.isChecked(), Toast.LENGTH_SHORT).show();
+                else {
+                    new Thread(() -> movieDatabase.movieDao().deleteMovie(movie)) .start();
                 }
             });
         }
@@ -274,8 +245,6 @@ public class DetailsActivity extends AppCompatActivity {
                     String noReviewString = "No Reviews Available";
 
                     ((TextView)findViewById(R.id.read_reviews_tv)).setText(noReviewString);
-
-                    Toast.makeText(DetailsActivity.this, "THERE IS NO REVIEWS FOR THIS MOVIE", Toast.LENGTH_LONG).show();
                 }
                 else {
                     adapterSwap();
