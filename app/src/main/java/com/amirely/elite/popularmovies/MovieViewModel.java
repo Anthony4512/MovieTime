@@ -14,14 +14,15 @@ import models.Movie;
 public class MovieViewModel extends AndroidViewModel {
 
     private LiveData<List<Movie>> liveMovieList;
+    private MovieDatabase movieDatabase;
 
     public MovieViewModel(@NonNull Application application) {
         super(application);
-        MovieDatabase movieDatabase = MovieDatabase.getInstance(this.getApplication());
-        liveMovieList = movieDatabase.movieDao().getListOfMovies();
+        movieDatabase = MovieDatabase.getInstance(this.getApplication());
     }
 
     public LiveData<List<Movie>> getLiveMovieList() {
+        liveMovieList = movieDatabase.movieDao().getListOfMovies();
         return liveMovieList;
     }
 }

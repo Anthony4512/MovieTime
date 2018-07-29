@@ -74,23 +74,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         switch (item.getItemId()) {
             case R.id.highest_rating_menu:
                 SORT_BY = "top_rated";
+                model.setSORT_BY(SORT_BY);
                 this.setTitle(getString(R.string.highest_rating_menu_title));
                 model.changeSortBy(SORT_BY);
-                model.setSORT_BY(SORT_BY);
 
                 return true;
             case R.id.most_popular_menu:
                 SORT_BY = "popular";
+                model.setSORT_BY(SORT_BY);
                 this.setTitle(getString(R.string.most_popular_menu_title));
                 model.changeSortBy(SORT_BY);
-                model.setSORT_BY(SORT_BY);
                 return true;
 
             case R.id.favorites_menu:
                 SORT_BY = "favorites";
+                model.setSORT_BY(SORT_BY);
                 this.setTitle(getString(R.string.favorites_menu_title));
                 updateMoviesFromDb();
-                model.setSORT_BY(SORT_BY);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
