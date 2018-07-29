@@ -25,7 +25,6 @@ public abstract class MovieDatabase extends RoomDatabase{
                         .build();
             }
         }
-        Log.d(LOG_TAG, "Getting the database instance");
         return sInstance;
     }
 

@@ -1,6 +1,7 @@
 package com.amirely.elite.popularmovies;
 
 
+import android.arch.lifecycle.MutableLiveData;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.json.JSONArray;
@@ -22,10 +23,11 @@ class JsonUtils {
     private final static String POSTER_PATH = "poster_path";
     private final static String MOVIE_ID = "id";
 
-    public static List<Movie> parseMoviesJson(String json) {
+    public static MutableLiveData<List<Movie>> parseMoviesJson(String json) {
         try {
 
             JSONObject jsonMovies = new JSONObject(json);
+            MutableLiveData<List<Movie>> mutableMovieList = new MutableLiveData<>();
             List<Movie> moviesList = new ArrayList<>();
             JSONArray jsonMoviesArray = jsonMovies.getJSONArray("results");
 
@@ -52,7 +54,9 @@ class JsonUtils {
             else {
                 Log.d("JSON MOVIE ARRAY","JSONMOVIES ARRAY IS EMPTY OR NULL");
             }
-            return moviesList;
+            mutableMovieList.postValue(moviesList);
+
+            return mutableMovieList;
 
         } catch (JSONException e) {
             e.printStackTrace();

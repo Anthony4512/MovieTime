@@ -7,8 +7,6 @@ public class Review {
     private String text;
     private String date;
 
-
-
     public Review(String id, String author, String text, String date) {
         this.id = id;
         this.author = author;

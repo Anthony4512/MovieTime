@@ -68,11 +68,7 @@ public class Details extends AppCompatActivity {
 
         final Movie movie = (Movie)intent.getSerializableExtra("currentMovie");
         if(movie != null) {
-
             likeIcon.setVisibility(View.VISIBLE);
-
-            System.out.println("ENTERED MOVIE != NULL");
-
             new AsyncTask<Void, Void, Integer>() {
                 @Override
                 protected Integer doInBackground(Void... voids) {
@@ -83,9 +79,7 @@ public class Details extends AppCompatActivity {
                 @Override
                 protected void onPostExecute(Integer integer) {
                     super.onPostExecute(integer);
-                    System.out.println("ENTEREd POST EXECUTE");
                     if(integer > 0) {
-                        System.out.println("ENTEREd INT > 0");
                         likeIcon.setChecked(true);
                     }
                 }
@@ -103,15 +97,12 @@ public class Details extends AppCompatActivity {
             ratingBar.setIndicator(true);
 
             moviePlot.setText(movie.getPlot());
-            movieReleaseDate.setText(movie.getReleaseDate().substring(0, 4));
+            movieReleaseDate.setText(movie.getReleaseDate());
 
-            readReviewsTV.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Details.this, ReviewsActivity.class);
-                    intent.putExtra("movieId", movie.getId());
-                    startActivity(intent);
-                }
+            readReviewsTV.setOnClickListener(view -> {
+                Intent intent1 = new Intent(Details.this, ReviewsActivity.class);
+                intent1.putExtra("movieId", movie.getId());
+                startActivity(intent1);
             });
 
             new AsyncTask<String, Void, Drawable>() {

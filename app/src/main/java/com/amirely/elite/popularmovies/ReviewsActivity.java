@@ -32,16 +32,11 @@ public class ReviewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reviews);
 
         Intent intent = getIntent();
-
         String movieId = intent.getStringExtra("movieId");
-
         mRecyclerView = findViewById(R.id.review_RV);
-
         ReviewAdapter mReviewAdapter = new ReviewAdapter(mReviewList);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-
         mRecyclerView.setLayoutManager(mLayoutManager);
-
         mRecyclerView.setAdapter(mReviewAdapter);
         mRecyclerView.setAdapter(mReviewAdapter);
 
