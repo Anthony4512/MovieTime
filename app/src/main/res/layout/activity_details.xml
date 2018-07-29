@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Details">
+    tools:context=".DetailsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,9 +26,9 @@
             <ImageView
                 android:id="@+id/movie_poster_iv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="400dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 android:layout_gravity="center"
                 app:srcCompat="@drawable/ic_launcher_foreground"
                 android:contentDescription="@string/movie_poster_description"/>
@@ -74,18 +74,6 @@
                         android:paddingStart="10dp"
                         android:paddingEnd="10dp"
                         android:paddingTop="10dp"/>
-
-                    <TextView
-                        android:id="@+id/read_reviews_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="5dp"
-                        android:paddingTop="5dp"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:text="@string/read_reviews"
-                        android:textColor="@color/colorPrimaryDark"/>
                 </LinearLayout>
 
                 <TextView
@@ -138,7 +126,7 @@
                 android:text="@string/trailer_label"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimaryDark"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"/>
 
@@ -151,6 +139,29 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:contentDescription="@string/trailer_play_button_description"
                 app:srcCompat="@drawable/play_button" />
+
+            <TextView
+                android:id="@+id/read_reviews_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="5dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/read_reviews"
+                android:textColor="@color/colorPrimaryDark"/>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/review_RV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/review_rv_background"
+                android:padding="2dp"
+                xmlns:android="http://schemas.android.com/apk/res/android">
+
+            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

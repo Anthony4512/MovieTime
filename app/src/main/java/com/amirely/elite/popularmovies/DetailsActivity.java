@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -21,20 +23,25 @@ import com.amirely.elite.popularmovies.utils.ApiKeyProvider;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import models.Movie;
+import models.Review;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class Details extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity {
 
     private final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/w780/";
     private static final String DATABASE_NAME = "movies_db";
     private MovieDatabase movieDatabase;
     private ImageView moviePoster;
     private String trailerId;
+
+    private List<Review> mReviewList;
+    private RecyclerView mRecyclerView;
 
     @SuppressLint("StaticFieldLeak")
     @Override
@@ -60,7 +67,7 @@ public class Details extends AppCompatActivity {
 
         final ImageView imageView = findViewById(R.id.imageButton);
 
-        TextView readReviewsTV = findViewById(R.id.read_reviews_tv);
+//        TextView readReviewsTV = findViewById(R.id.read_reviews_tv);
 
         final CheckBox likeIcon = findViewById(R.id.likeIcon);
 
@@ -99,11 +106,13 @@ public class Details extends AppCompatActivity {
             moviePlot.setText(movie.getPlot());
             movieReleaseDate.setText(movie.getReleaseDate());
 
-            readReviewsTV.setOnClickListener(view -> {
-                Intent intent1 = new Intent(Details.this, ReviewsActivity.class);
-                intent1.putExtra("movieId", movie.getId());
-                startActivity(intent1);
-            });
+            loadReviews(movie.getId());
+
+//            readReviewsTV.setOnClickListener(view -> {
+//                Intent intent1 = new Intent(DetailsActivity.this, ReviewsActivity.class);
+//                intent1.putExtra("movieId", movie.getId());
+//                startActivity(intent1);
+//            });
 
             new AsyncTask<String, Void, Drawable>() {
 
@@ -145,13 +154,27 @@ public class Details extends AppCompatActivity {
                             }
                         }) .start();
                     }
-                    Toast.makeText(Details.this, "VALUE OF LIKE: " + likeIcon.isChecked(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailsActivity.this, "VALUE OF LIKE: " + likeIcon.isChecked(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
         else {
             likeIcon.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void loadReviews(String movieId) {
+
+        mRecyclerView = findViewById(R.id.review_RV);
+        ReviewAdapter mReviewAdapter = new ReviewAdapter(mReviewList);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mReviewAdapter);
+        mRecyclerView.setAdapter(mReviewAdapter);
+
+        requestMoviesReviews(movieId);
+
+
     }
 
     /**
@@ -215,4 +238,61 @@ public class Details extends AppCompatActivity {
     private void addDrawable(Drawable drawable) {
         moviePoster.setImageDrawable(drawable);
     }
+
+    private void adapterSwap() {
+        ReviewAdapter reviewAdapter = new ReviewAdapter(mReviewList);
+        mRecyclerView.swapAdapter(reviewAdapter, false);
+    }
+
+
+    @SuppressLint("StaticFieldLeak")
+    private void requestMoviesReviews(String movieId) {
+
+        new AsyncTask<String, Void, String>() {
+
+            final OkHttpClient client = new OkHttpClient();
+
+            @Override
+            protected String doInBackground(String... strings) {
+                try {
+                    String results = run(strings[0]);
+
+                    mReviewList = JsonUtils.getMovieReviews(results);
+
+                    return"";
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                if(mReviewList.isEmpty()) {
+                    String noReviewString = "No Reviews Available";
+
+                    ((TextView)findViewById(R.id.read_reviews_tv)).setText(noReviewString);
+
+                    Toast.makeText(DetailsActivity.this, "THERE IS NO REVIEWS FOR THIS MOVIE", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    adapterSwap();
+                }
+
+            }
+
+            String run(String url) throws IOException {
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+
+                Response response = client.newCall(request).execute();
+
+                return Objects.requireNonNull(response.body()).string();
+            }
+        }.execute("https://api.themoviedb.org/3/movie/" + movieId + "/reviews?api_key=" + ApiKeyProvider.API_KEY + "&language=en-US");
+    }
+
 }
