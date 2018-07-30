@@ -123,6 +123,7 @@ public class DetailsActivity extends AppCompatActivity {
             likeIcon.setOnClickListener(view -> {
                 if(likeIcon.isChecked()) {
                     new Thread(() -> movieDatabase.movieDao().insertMovie(movie)) .start();
+
                 }
                 else {
                     new Thread(() -> movieDatabase.movieDao().deleteMovie(movie)) .start();

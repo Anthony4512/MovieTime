@@ -58,7 +58,7 @@ public class MainActivityViewModel extends ViewModel {
     class MovieFetcher extends AsyncTask<String, Void, String> {
 
         final OkHttpClient client = new OkHttpClient();
-        MutableLiveData<List<Movie>> tempMovieList;
+        MutableLiveData<List<Movie>> tempMovieList = new MutableLiveData<>();;
         @Override
         protected String doInBackground(String... strings) {
             try {

@@ -56,6 +56,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(SORT_BY.equals("favorites")) {
+            updateMoviesFromDb();
+        }
+    }
+
+    @Override
     public void onMovieClick(int movieClickedIndex) {
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
         intent.putExtra("currentMovie", mMovieList.get(movieClickedIndex));
